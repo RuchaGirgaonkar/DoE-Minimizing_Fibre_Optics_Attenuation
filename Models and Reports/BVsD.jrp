@@ -1,0 +1,41 @@
+﻿New Table( "BVsD",
+	Add Rows( 11 ),
+	New Column( "B",
+		Numeric,
+		"Continuous",
+		Format( "Best", 12 ),
+		Set Values( [-1, -0.8, -0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6, 0.8, 1] )
+	),
+	New Column( "D",
+		Numeric,
+		"Continuous",
+		Format( "Best", 12 ),
+		Set Values(
+			[0.215, 0.2, 0.123, 0.092, 0.031, 0.015, -0.046, -0.108, -0.108, -0.2,
+			-0.248]
+		),
+		Set Display Width( 49 )
+	),
+	New Column( "Pred Formula B",
+		Numeric,
+		"Continuous",
+		Format( "Best", 12 ),
+		Set Property( "Notes", "Prediction Formula" ),
+		Formula( (-0.0318643442676935) + -4.24934029409053 * :D ),
+		Set Property( "Predicting", {:B, Creator( "Fit Least Squares" )} )
+	)
+) << Run Formulas;
+Fit Model(
+	Y( :B ),
+	Effects( :D ),
+	Personality( "Standard Least Squares" ),
+	Emphasis( "Effect Leverage" ),
+	Run(
+		:B << {Summary of Fit( 1 ), Analysis of Variance( 1 ),
+		Parameter Estimates( 1 ), Show Prediction Expression( 1 ),
+		Scaled Estimates( 0 ), Plot Actual by Predicted( 1 ),
+		Plot Residual by Predicted( 1 ), Plot Studentized Residuals( 0 ),
+		Plot Effect Leverage( 1 ), Plot Residual by Normal Quantiles( 0 ),
+		Box Cox Y Transformation( 0 )}
+	)
+);
